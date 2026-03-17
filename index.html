@@ -295,12 +295,6 @@
   }
   .ann-card .ann-meta { color:#b7950b; font-size:10px; margin-bottom:6px; letter-spacing:1px; }
   .ann-card .ann-text { line-height:1.7; white-space:pre-wrap; }
-  .ann-card .ann-del {
-    position:absolute; top:8px; right:10px; background:none; border:none;
-    cursor:pointer; color:#aaa; font-size:14px; display:none;
-  }
-  .ann-card:hover .ann-del { display:block; }
-  .ann-card .ann-del:hover { color:#c0392b; }
 
   #admin-trigger {
     position:fixed; bottom:18px; right:18px;
@@ -384,6 +378,8 @@
   .p-btn:hover { background:#c0392b; }
   .p-btn.danger { background:#c0392b; }
   .p-btn.danger:hover { background:#922b21; }
+  .p-btn.refresh { background:#2471a3; }
+  .p-btn.refresh:hover { background:#1a5276; }
   .logout-btn {
     width:100%; margin-top:16px; background:none; border:1px solid #bbb;
     color:#888; padding:8px; cursor:pointer; font-family:'Share Tech Mono',monospace;
@@ -397,42 +393,38 @@
     z-index:10001; opacity:0; transition:opacity 0.3s; pointer-events:none;
   }
   .sync-status {
-    font-family:'Share Tech Mono',monospace; font-size:10px;
-    letter-spacing:1px; padding:4px 10px; margin-bottom:14px;
-    border:1px solid #bbb; color:#888; text-align:center;
+    font-family:'Share Tech Mono',monospace; font-size:10px; letter-spacing:1px;
+    padding:5px 10px; margin-bottom:14px; border:1px solid #bbb;
+    color:#888; text-align:center;
   }
-  .sync-status.ok { border-color:#27ae60; color:#1e8449; background:rgba(39,174,96,0.06); }
+  .sync-status.ok  { border-color:#27ae60; color:#1e8449; background:rgba(39,174,96,0.06); }
   .sync-status.err { border-color:#c0392b; color:#c0392b; background:rgba(192,57,43,0.06); }
   .sync-status.loading { border-color:#e67e22; color:#b7770d; background:rgba(230,126,34,0.06); }
 
-  /* Liste annonces dans le panel */
-  .ann-admin-list { margin-top:8px; }
   .ann-admin-item {
     background:#e0d8bf; border:1px solid #bbb; border-left:3px solid #f1c40f;
-    padding:8px 10px; margin-bottom:8px; position:relative; font-size:11px;
-    color:#3a3a3a; line-height:1.6;
+    padding:8px 10px; margin-bottom:8px; font-size:11px; color:#3a3a3a; line-height:1.6;
   }
-  .ann-admin-item .ann-admin-meta { color:#b7950b; font-size:9px; margin-bottom:4px; }
-  .ann-admin-item .ann-admin-text { padding-right:60px; white-space:pre-wrap; }
-  .ann-admin-item .ann-admin-actions {
-    position:absolute; top:8px; right:8px; display:flex; gap:4px;
-  }
+  .ann-admin-meta { color:#b7950b; font-size:9px; margin-bottom:4px; letter-spacing:1px; }
+  .ann-admin-text { padding-right:4px; white-space:pre-wrap; margin-bottom:6px; }
+  .ann-admin-actions { display:flex; gap:6px; margin-top:6px; }
   .ann-admin-btn {
     background:none; border:1px solid #bbb; color:#666; cursor:pointer;
-    font-family:'Share Tech Mono',monospace; font-size:9px; padding:2px 6px;
-    transition:all 0.2s;
+    font-family:'Share Tech Mono',monospace; font-size:9px; padding:3px 8px;
+    transition:all 0.2s; flex:1; text-align:center;
   }
-  .ann-admin-btn.del:hover { border-color:#c0392b; color:#c0392b; }
-  .ann-admin-btn.edit:hover { border-color:#2980b9; color:#2980b9; }
+  .ann-admin-btn.del:hover { border-color:#c0392b; color:#c0392b; background:rgba(192,57,43,0.06); }
+  .ann-admin-btn.edit:hover { border-color:#2980b9; color:#2980b9; background:rgba(41,128,185,0.06); }
+  .ann-edit-zone { display:none; margin-top:8px; }
   .ann-edit-box {
-    margin-top:6px; width:100%; background:#f0ead6; border:1px solid #2980b9;
+    width:100%; background:#f0ead6; border:1px solid #2980b9;
     padding:6px 8px; font-family:'Share Tech Mono',monospace; font-size:11px;
     color:#1a1a1a; resize:vertical; min-height:50px; box-sizing:border-box; outline:none;
   }
   .ann-edit-save {
-    background:#2980b9; border:none; color:#fff; padding:4px 12px;
+    background:#2980b9; border:none; color:#fff; padding:5px 14px;
     cursor:pointer; font-family:'VT323',monospace; font-size:14px;
-    letter-spacing:1px; margin-top:4px;
+    letter-spacing:1px; margin-top:5px; transition:background 0.2s;
   }
   .ann-edit-save:hover { background:#1a5276; }
 </style>
@@ -875,24 +867,19 @@ document.addEventListener('click', () => {
 
   <div class="sync-status loading" id="sync-status">⟳ CONNEXION...</div>
 
-  <!-- NOUVELLE ANNONCE -->
   <div class="p-section">
     <div class="p-section-title">📢 Publier une Annonce</div>
-    <label class="p-label">TEXTE DE L'ANNONCE</label>
+    <label class="p-label">TEXTE</label>
     <textarea class="p-input" id="ann-text" placeholder="Message pour tous les joueurs..."></textarea>
     <button class="p-btn" onclick="addAnnonce()">+ PUBLIER</button>
   </div>
 
-  <!-- LISTE DES ANNONCES EN TEMPS RÉEL -->
   <div class="p-section">
-    <div class="p-section-title">📋 Annonces en cours <span id="ann-count" style="color:#c0392b;"></span></div>
-    <div class="ann-admin-list" id="ann-admin-list">
-      <div style="color:#aaa;font-size:11px;">Chargement...</div>
-    </div>
-    <button class="p-btn" onclick="loadAnnonces()" style="margin-top:8px;background:#3a3a3a;">↻ ACTUALISER</button>
+    <div class="p-section-title">📋 Liste des Annonces <span id="ann-count" style="color:#c0392b;font-size:10px;"></span></div>
+    <div id="ann-admin-list"><div style="color:#aaa;font-size:11px;text-align:center;padding:10px;">Chargement...</div></div>
+    <button class="p-btn refresh" onclick="loadAnnonces()" style="margin-top:8px;">↻ ACTUALISER</button>
   </div>
 
-  <!-- AJOUTER RÈGLE -->
   <div class="p-section">
     <div class="p-section-title">📋 Ajouter une Règle</div>
     <label class="p-label">NUMÉRO / NOM DE SECTION</label>
@@ -905,18 +892,14 @@ document.addEventListener('click', () => {
     <input class="p-input" id="new-rule-sanction" placeholder="Ex: ⚠ Avertissement → Ban">
     <label class="p-label">COULEUR</label>
     <select class="p-input" id="new-rule-color">
-      <option value="red">Rouge</option>
-      <option value="orange">Orange</option>
-      <option value="yellow">Jaune</option>
-      <option value="green">Vert</option>
-      <option value="blue">Bleu</option>
-      <option value="purple">Violet</option>
+      <option value="red">Rouge</option><option value="orange">Orange</option>
+      <option value="yellow">Jaune</option><option value="green">Vert</option>
+      <option value="blue">Bleu</option><option value="purple">Violet</option>
       <option value="teal">Teal</option>
     </select>
     <button class="p-btn" onclick="addRule()">+ AJOUTER LA RÈGLE</button>
   </div>
 
-  <!-- SUPPRIMER RÈGLE AJOUTÉE -->
   <div class="p-section">
     <div class="p-section-title">🗑 Supprimer une Règle Ajoutée</div>
     <select class="p-input" id="del-rule-sel"><option value="">-- Sélectionner --</option></select>
@@ -929,77 +912,67 @@ document.addEventListener('click', () => {
 <div class="flash-msg" id="flash-msg"></div>
 
 <script>
-const ADMIN_PWD = "Luluclc34?";
-const GIST_ID = "711c4e7264eecd0c268157f193c40c0a";
-const GIST_FILE = "scp_annonces.json";
-const GH_TOKEN = "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";
-const GIST_RAW = `https://gist.githubusercontent.com/lucascl0606-design/${GIST_ID}/raw/${GIST_FILE}`;
+const ADMIN_PWD  = "Luluclc34?";
+const BIN_ID     = "69b9aaaeb7ec241ddc7939af";
+const API_KEY    = "$2a$10$wtpC523scrPDxkSnkdwSF.60afKF/PZt8R5qpBQZk63Pb9663tfim";
+const BIN_URL    = "https://api.jsonbin.io/v3/b/" + BIN_ID;
+const HEADERS_R  = {"X-Master-Key": API_KEY};
+const HEADERS_RW = {"X-Master-Key": API_KEY, "Content-Type": "application/json"};
 
-let isAdmin = false;
+let isAdmin  = false;
 let annonces = [];
 let extraRules = JSON.parse(localStorage.getItem('scp_rules') || '[]');
 
-// ===== GIST API =====
+// ===== JSONBIN API =====
 async function loadAnnonces() {
   setSyncStatus('loading', '⟳ CHARGEMENT...');
   try {
-    const r = await fetch(GIST_RAW + '?t=' + Date.now());
+    const r = await fetch(BIN_URL + "/latest", {headers: HEADERS_R});
+    if (!r.ok) throw new Error(r.status);
     const data = await r.json();
-    annonces = data.annonces || [];
+    annonces = data.record.annonces || [];
     renderAnnonces();
     renderAdminList();
     setSyncStatus('ok', '✓ SYNCHRONISÉ — ' + annonces.length + ' annonce(s)');
   } catch(e) {
-    setSyncStatus('err', '✗ ERREUR DE CONNEXION');
+    setSyncStatus('err', '✗ ERREUR : ' + e.message);
   }
 }
 
 async function saveAnnonces() {
   setSyncStatus('loading', '⟳ SAUVEGARDE...');
   try {
-    const body = JSON.stringify({
-      files: { [GIST_FILE]: { content: JSON.stringify({ annonces }) } }
+    const r = await fetch(BIN_URL, {
+      method: 'PUT',
+      headers: HEADERS_RW,
+      body: JSON.stringify({annonces})
     });
-    const r = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
-      method: 'PATCH',
-      headers: {
-        'Authorization': `token ${GH_TOKEN}`,
-        'Content-Type': 'application/json',
-        'Accept': 'application/vnd.github+json'
-      },
-      body
-    });
-    if (!r.ok) throw new Error('API error');
+    if (!r.ok) throw new Error(r.status);
     renderAnnonces();
     renderAdminList();
     setSyncStatus('ok', '✓ SAUVEGARDÉ — ' + annonces.length + ' annonce(s)');
   } catch(e) {
-    setSyncStatus('err', '✗ ERREUR SAUVEGARDE');
+    setSyncStatus('err', '✗ ERREUR SAUVEGARDE : ' + e.message);
   }
 }
 
 // ===== RENDER ANNONCES (visible par tous) =====
 function renderAnnonces() {
-  let wrapper = document.getElementById('annonces-wrapper');
-  if (!wrapper) {
-    wrapper = document.createElement('div');
-    wrapper.id = 'annonces-wrapper';
-    wrapper.style.cssText = 'margin:0 30px 20px;';
+  let w = document.getElementById('annonces-wrapper');
+  if (!w) {
+    w = document.createElement('div');
+    w.id = 'annonces-wrapper';
+    w.style.cssText = 'margin:0 30px 20px;';
     const badges = document.querySelector('.badges');
-    if (badges) badges.after(wrapper);
+    if (badges) badges.after(w);
   }
-  if (!annonces || annonces.length === 0) {
-    wrapper.innerHTML = '';
-    return;
-  }
-  wrapper.innerHTML = '<div class="ann-section-title">📢 ANNONCES OFFICIELLES</div>' +
-    annonces.map((a, i) => `
+  if (!annonces.length) { w.innerHTML = ''; return; }
+  w.innerHTML = '<div class="ann-section-title">📢 ANNONCES OFFICIELLES</div>' +
+    annonces.map((a,i) => `
       <div class="ann-card">
         <div class="ann-meta">📢 ${a.date} — ANNONCE OFFICIELLE</div>
-        <div class="ann-text">${escHtml(a.text)}</div>
-        ${isAdmin ? `<button class="ann-del" onclick="quickDelAnnonce(${i})">✕</button>` : ''}
-      </div>
-    `).join('');
+        <div class="ann-text">${esc(a.text)}</div>
+      </div>`).join('');
 }
 
 // ===== RENDER LISTE ADMIN =====
@@ -1007,58 +980,55 @@ function renderAdminList() {
   const list = document.getElementById('ann-admin-list');
   const count = document.getElementById('ann-count');
   if (!list) return;
-  count.textContent = '(' + annonces.length + ')';
-  if (annonces.length === 0) {
+  if (count) count.textContent = '(' + annonces.length + ')';
+  if (!annonces.length) {
     list.innerHTML = '<div style="color:#aaa;font-size:11px;text-align:center;padding:10px;">Aucune annonce</div>';
     return;
   }
-  list.innerHTML = annonces.map((a, i) => `
-    <div class="ann-admin-item" id="ann-item-${i}">
+  list.innerHTML = annonces.map((a,i) => `
+    <div class="ann-admin-item">
       <div class="ann-admin-meta">📢 ${a.date}</div>
-      <div class="ann-admin-text" id="ann-text-${i}">${escHtml(a.text)}</div>
+      <div class="ann-admin-text">${esc(a.text)}</div>
       <div class="ann-admin-actions">
-        <button class="ann-admin-btn edit" onclick="editAnnonce(${i})">✏ EDIT</button>
-        <button class="ann-admin-btn del" onclick="quickDelAnnonce(${i})">🗑 SUPPR</button>
+        <button class="ann-admin-btn edit" onclick="toggleEdit(${i})">✏ MODIFIER</button>
+        <button class="ann-admin-btn del"  onclick="delAnnonce(${i})">🗑 SUPPRIMER</button>
       </div>
-      <div id="ann-edit-zone-${i}" style="display:none;margin-top:6px;">
-        <textarea class="ann-edit-box" id="ann-edit-input-${i}">${a.text}</textarea>
-        <button class="ann-edit-save" onclick="saveEditAnnonce(${i})">✓ ENREGISTRER</button>
+      <div class="ann-edit-zone" id="ez-${i}">
+        <textarea class="ann-edit-box" id="ei-${i}">${a.text}</textarea>
+        <button class="ann-edit-save" onclick="saveEdit(${i})">✓ ENREGISTRER</button>
       </div>
-    </div>
-  `).join('');
+    </div>`).join('');
 }
 
-function editAnnonce(i) {
-  const zone = document.getElementById('ann-edit-zone-' + i);
-  zone.style.display = zone.style.display === 'none' ? 'block' : 'none';
-  if (zone.style.display === 'block') {
-    document.getElementById('ann-edit-input-' + i).focus();
-  }
+function toggleEdit(i) {
+  const z = document.getElementById('ez-'+i);
+  z.style.display = z.style.display === 'block' ? 'none' : 'block';
+  if (z.style.display === 'block') document.getElementById('ei-'+i).focus();
 }
 
-async function saveEditAnnonce(i) {
-  const newText = document.getElementById('ann-edit-input-' + i).value.trim();
-  if (!newText) return;
-  annonces[i].text = newText;
-  annonces[i].date += ' (modifié)';
+async function saveEdit(i) {
+  const t = document.getElementById('ei-'+i).value.trim();
+  if (!t) return;
+  annonces[i].text = t;
   await saveAnnonces();
-  flash('✏ Annonce modifiée !');
+  flash('✏ Modifiée !');
 }
 
-async function quickDelAnnonce(i) {
+async function delAnnonce(i) {
   if (!confirm('Supprimer cette annonce ?')) return;
-  annonces.splice(i, 1);
+  annonces.splice(i,1);
   await saveAnnonces();
   flash('🗑 Supprimée');
 }
 
-// ===== ACTIONS ADMIN =====
 async function addAnnonce() {
   const text = document.getElementById('ann-text').value.trim();
   if (!text) return;
   const now = new Date();
-  const date = now.toLocaleDateString('fr-FR') + ' ' + now.toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'});
-  annonces.unshift({ text, date });
+  annonces.unshift({
+    text,
+    date: now.toLocaleDateString('fr-FR') + ' ' + now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})
+  });
   document.getElementById('ann-text').value = '';
   await saveAnnonces();
   flash('📢 Annonce publiée !');
@@ -1068,113 +1038,100 @@ async function addAnnonce() {
 function renderExtraRules() {
   document.querySelectorAll('.extra-rule').forEach(e => e.remove());
   const recap = document.querySelector('.recap');
-  if (recap && extraRules.length > 0) {
-    extraRules.slice().reverse().forEach((r, ri) => {
-      const realIdx = extraRules.length - 1 - ri;
-      const div = document.createElement('div');
-      div.className = 'section extra-rule';
-      const delBtn = isAdmin ? `<button onclick="delRule(${realIdx})" style="float:right;background:none;border:1px solid #c0392b;color:#c0392b;cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:10px;padding:2px 8px;margin-left:10px;">✕ SUPPR</button>` : '';
-      div.innerHTML = `
-        <div class="section-title title-${r.color}">${delBtn}<span class="badge-num num-${r.color}">${escHtml(r.section)}</span>${escHtml(r.title)}</div>
-        <div class="definition"><strong>Définition :</strong> ${escHtml(r.def)}</div>
-        <div class="sanction sanction-orange">${escHtml(r.sanction)}</div>
-      `;
-      recap.before(div);
-    });
-  }
+  if (!recap || !extraRules.length) { updateDelSelect(); return; }
+  extraRules.slice().reverse().forEach((r,ri) => {
+    const idx = extraRules.length-1-ri;
+    const div = document.createElement('div');
+    div.className = 'section extra-rule';
+    const btn = isAdmin ? `<button onclick="delRule(${idx})" style="float:right;background:none;border:1px solid #c0392b;color:#c0392b;cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:10px;padding:2px 8px;">✕ SUPPR</button>` : '';
+    div.innerHTML = `
+      <div class="section-title title-${r.color}">${btn}<span class="badge-num num-${r.color}">${esc(r.section)}</span>${esc(r.title)}</div>
+      <div class="definition"><strong>Définition :</strong> ${esc(r.def)}</div>
+      <div class="sanction sanction-orange">${esc(r.sanction)}</div>`;
+    recap.before(div);
+  });
   updateDelSelect();
 }
 
 function addRule() {
   const section = document.getElementById('new-section').value.trim();
-  const title = document.getElementById('new-rule-title').value.trim();
+  const title   = document.getElementById('new-rule-title').value.trim();
   if (!section || !title) { flash('⚠ Section + titre requis'); return; }
   extraRules.push({
     section, title,
-    def: document.getElementById('new-rule-def').value.trim() || 'Voir staff.',
+    def:      document.getElementById('new-rule-def').value.trim() || 'Voir staff.',
     sanction: document.getElementById('new-rule-sanction').value.trim() || '⚠ Sanction selon gravité.',
-    color: document.getElementById('new-rule-color').value
+    color:    document.getElementById('new-rule-color').value
   });
-  document.getElementById('new-section').value = '';
-  document.getElementById('new-rule-title').value = '';
-  document.getElementById('new-rule-def').value = '';
-  document.getElementById('new-rule-sanction').value = '';
+  ['new-section','new-rule-title','new-rule-def','new-rule-sanction'].forEach(id => document.getElementById(id).value='');
   localStorage.setItem('scp_rules', JSON.stringify(extraRules));
-  renderExtraRules();
-  flash('✓ Règle ajoutée !');
+  renderExtraRules(); flash('✓ Règle ajoutée !');
 }
 
 function delRule(i) {
   if (!confirm('Supprimer cette règle ?')) return;
-  extraRules.splice(i, 1);
+  extraRules.splice(i,1);
   localStorage.setItem('scp_rules', JSON.stringify(extraRules));
-  renderExtraRules();
-  flash('🗑 Règle supprimée');
+  renderExtraRules(); flash('🗑 Règle supprimée');
 }
 
 function deleteRule() {
   const v = document.getElementById('del-rule-sel').value;
-  if (v === '') return;
-  delRule(parseInt(v));
+  if (v !== '') delRule(parseInt(v));
 }
 
 function updateDelSelect() {
   const sel = document.getElementById('del-rule-sel');
   if (!sel) return;
   sel.innerHTML = '<option value="">-- Sélectionner --</option>' +
-    extraRules.map((r, i) => `<option value="${i}">${escHtml(r.section)} — ${escHtml(r.title)}</option>`).join('');
+    extraRules.map((r,i)=>`<option value="${i}">${esc(r.section)} — ${esc(r.title)}</option>`).join('');
 }
 
 // ===== LOGIN =====
 function openLogin() {
   if (isAdmin) { openPanel(); return; }
   document.getElementById('login-modal').classList.add('open');
-  setTimeout(() => document.getElementById('pwd-input').focus(), 50);
+  setTimeout(()=>document.getElementById('pwd-input').focus(),50);
 }
 function closeLogin() {
   document.getElementById('login-modal').classList.remove('open');
-  document.getElementById('pwd-input').value = '';
-  document.getElementById('pwd-err').style.display = 'none';
+  document.getElementById('pwd-input').value='';
+  document.getElementById('pwd-err').style.display='none';
 }
 function checkPwd() {
   if (document.getElementById('pwd-input').value === ADMIN_PWD) {
-    isAdmin = true; closeLogin(); openPanel();
-    renderAnnonces(); renderExtraRules();
-    flash('✓ CONNECTÉ');
+    isAdmin=true; closeLogin(); openPanel();
+    renderAnnonces(); renderExtraRules(); flash('✓ CONNECTÉ');
   } else {
-    document.getElementById('pwd-err').style.display = 'block';
+    document.getElementById('pwd-err').style.display='block';
     document.getElementById('pwd-input').classList.add('error');
-    document.getElementById('pwd-input').value = '';
-    setTimeout(() => {
-      document.getElementById('pwd-err').style.display = 'none';
+    document.getElementById('pwd-input').value='';
+    setTimeout(()=>{
+      document.getElementById('pwd-err').style.display='none';
       document.getElementById('pwd-input').classList.remove('error');
-    }, 2000);
+    },2000);
   }
 }
-function logout() { isAdmin = false; closePanel(); renderAnnonces(); renderExtraRules(); flash('[ DÉCONNECTÉ ]'); }
+function logout()    { isAdmin=false; closePanel(); renderAnnonces(); renderExtraRules(); flash('[ DÉCONNECTÉ ]'); }
 function openPanel() { document.getElementById('admin-panel').classList.add('open'); loadAnnonces(); }
-function closePanel() { document.getElementById('admin-panel').classList.remove('open'); }
+function closePanel(){ document.getElementById('admin-panel').classList.remove('open'); }
 
-function setSyncStatus(type, msg) {
-  const el = document.getElementById('sync-status');
-  if (!el) return;
-  el.className = 'sync-status ' + type;
-  el.textContent = msg;
+function setSyncStatus(t,msg) {
+  const el=document.getElementById('sync-status');
+  if(el){ el.className='sync-status '+t; el.textContent=msg; }
 }
-
-function escHtml(s) {
+function esc(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
 }
 function flash(msg) {
-  const el = document.getElementById('flash-msg');
-  el.textContent = msg; el.style.opacity = '1';
-  setTimeout(() => el.style.opacity = '0', 2500);
+  const el=document.getElementById('flash-msg');
+  el.textContent=msg; el.style.opacity='1';
+  setTimeout(()=>el.style.opacity='0',2500);
 }
 
 // ===== INIT =====
 loadAnnonces();
 renderExtraRules();
-// Auto-refresh toutes les 30 secondes
 setInterval(loadAnnonces, 30000);
 </script>
 
