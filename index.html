@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- v3.1 -->
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
@@ -34,6 +35,670 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 
 .header{background:var(--paper-dark);border-bottom:1px solid var(--border);padding:14px 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;position:relative;}
 .header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--neon-cyan),transparent);}
+.header-left,.header-right{font-size:clamp(9px,1.2vw,11px);color:var(--ink-dim);line-height:2;font-family:'Share Tech Mono',monospace;}
+.header-right{text-align:right;}
+.header-center{text-align:center;flex:1;min-width:180px;}
+.scp-logo{width:clamp(55px,9vw,75px);height:clamp(44px,7vw,60px);border:2px solid var(--neon-cyan);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 5px;animation:logo-glow 3s ease-in-out infinite;position:relative;background:rgba(0,204,255,0.05);}
+.scp-logo::before{content:'';position:absolute;inset:-6px;border:1px solid rgba(0,204,255,0.3);border-radius:50%;animation:spin 8s linear infinite;}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes logo-glow{0%,100%{box-shadow:0 0 15px var(--glow-cyan)}50%{box-shadow:0 0 30px var(--glow-cyan),0 0 60px rgba(0,204,255,0.15)}}
+.doc-title{font-family:'Orbitron',monospace;font-size:clamp(12px,2vw,18px);color:var(--neon-cyan);letter-spacing:4px;text-shadow:0 0 10px var(--neon-cyan);}
+.doc-ref{font-size:clamp(8px,1.1vw,10px);color:var(--ink-dim);letter-spacing:2px;margin-top:3px;}
+
+.stamp{position:absolute;top:65px;right:18px;border:2px solid var(--neon-red);padding:5px 12px;font-family:'Orbitron',monospace;font-size:clamp(10px,1.8vw,15px);color:var(--neon-red);letter-spacing:4px;transform:rotate(-12deg);opacity:0;animation:stamp-appear 0.3s ease 0.5s forwards;z-index:50;text-shadow:0 0 10px var(--neon-red);box-shadow:0 0 15px var(--glow-red);}
+@keyframes stamp-appear{0%{opacity:0;transform:rotate(-12deg) scale(3)}50%{opacity:1;transform:rotate(-12deg) scale(0.95)}100%{opacity:0.85;transform:rotate(-12deg) scale(1)}}
+
+.badges{display:flex;gap:7px;padding:9px 20px;border-bottom:1px solid var(--border);flex-wrap:wrap;}
+.badge{padding:3px 12px;font-size:clamp(9px,1.2vw,11px);font-weight:bold;letter-spacing:2px;border:1px solid;font-family:'Share Tech Mono',monospace;}
+.badge-doc{color:var(--ink-mid);border-color:var(--border);background:rgba(0,204,255,0.05);}
+.badge-server{color:var(--neon-cyan);border-color:var(--neon-cyan);background:rgba(0,204,255,0.08);text-shadow:0 0 8px var(--neon-cyan);}
+.badge-version{color:var(--neon-green);border-color:var(--neon-green);background:rgba(0,255,136,0.08);text-shadow:0 0 8px var(--neon-green);}
+
+/* ANNONCES */
+#annonces-wrapper{margin:0 20px 14px;}
+.ann-section-title{font-family:'Orbitron',monospace;font-size:14px;color:var(--orange);letter-spacing:3px;margin-bottom:7px;padding:6px 12px;border-left:3px solid var(--orange);background:rgba(255,102,0,0.08);text-shadow:0 0 8px var(--orange);}
+.ann-card{background:rgba(255,204,0,0.05);border:1px solid rgba(255,204,0,0.3);border-left:3px solid var(--yellow);padding:10px 14px;margin-bottom:7px;font-size:clamp(10px,1.3vw,12px);color:var(--ink-mid);position:relative;animation:fadeIn 0.4s ease;box-shadow:0 0 10px rgba(255,204,0,0.05);}
+.ann-card.vip{background:rgba(0,255,136,0.05);border:1px solid rgba(0,255,136,0.3);border-left:3px solid var(--neon-green);box-shadow:0 0 10px rgba(0,255,136,0.08);}
+.ann-meta{font-size:10px;margin-bottom:4px;letter-spacing:1px;color:rgba(255,204,0,0.7);}
+.ann-card.vip .ann-meta{color:rgba(0,255,136,0.8);}
+.ann-text{line-height:1.7;color:var(--ink);}
+.vip-badge{display:inline-block;background:var(--neon-green);color:#000;font-family:'Orbitron',monospace;font-size:9px;letter-spacing:2px;padding:1px 6px;margin-left:5px;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+
+.intro{margin:10px 20px;padding:10px 14px;background:rgba(0,204,255,0.04);border-left:3px solid var(--neon-cyan);border:1px solid var(--border);border-left:3px solid var(--neon-cyan);font-size:clamp(10px,1.3vw,12px);color:var(--ink-mid);line-height:1.8;}
+
+.section{margin:0 20px 18px;opacity:0;transform:translateY(8px);animation:fadeIn 0.5s ease forwards;}
+.section-title{font-family:'Orbitron',monospace;font-size:clamp(11px,1.8vw,15px);letter-spacing:3px;margin-bottom:9px;padding:8px 14px;display:flex;align-items:center;gap:9px;border-left:3px solid;position:relative;}
+.section-title::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,currentColor,transparent);opacity:0.04;pointer-events:none;}
+.badge-num{font-size:clamp(9px,1.2vw,11px);padding:2px 8px;font-weight:900;font-family:'Orbitron',monospace;}
+.title-red{color:var(--neon-red);border-color:var(--neon-red);background:rgba(255,34,68,0.06);text-shadow:0 0 8px var(--neon-red);}
+.title-orange{color:var(--orange);border-color:var(--orange);background:rgba(255,102,0,0.06);text-shadow:0 0 8px var(--orange);}
+.title-yellow{color:var(--yellow);border-color:var(--yellow);background:rgba(255,204,0,0.06);text-shadow:0 0 8px var(--yellow);}
+.title-green{color:var(--neon-green);border-color:var(--neon-green);background:rgba(0,255,136,0.06);text-shadow:0 0 8px var(--neon-green);}
+.title-blue{color:var(--neon-cyan);border-color:var(--neon-cyan);background:rgba(0,204,255,0.06);text-shadow:0 0 8px var(--neon-cyan);}
+.title-purple{color:var(--purple);border-color:var(--purple);background:rgba(204,68,255,0.06);text-shadow:0 0 8px var(--purple);}
+.title-teal{color:var(--teal);border-color:var(--teal);background:rgba(0,255,204,0.06);text-shadow:0 0 8px var(--teal);}
+.num-red{background:var(--neon-red);color:#000;} .num-orange{background:var(--orange);color:#000;}
+.num-yellow{background:var(--yellow);color:#000;} .num-green{background:var(--neon-green);color:#000;}
+.num-blue{background:var(--neon-cyan);color:#000;} .num-purple{background:var(--purple);color:#000;}
+.num-teal{background:var(--teal);color:#000;}
+
+.definition{padding:9px 13px;background:rgba(0,204,255,0.04);border:1px solid var(--border);margin-bottom:9px;font-size:clamp(10px,1.3vw,12px);color:var(--ink-mid);line-height:1.8;}
+.definition strong{color:var(--ink);}
+.rules-list{list-style:none;margin-bottom:9px;}
+.rules-list li{padding:5px 0 5px 20px;position:relative;font-size:clamp(10px,1.3vw,12px);color:var(--ink-mid);line-height:1.7;border-bottom:1px solid rgba(0,204,255,0.08);}
+.rules-list li::before{content:attr(data-icon);position:absolute;left:0;font-weight:bold;}
+.rules-list li.ok::before{color:var(--neon-green);text-shadow:0 0 6px var(--neon-green);}
+.rules-list li.bad::before{color:var(--neon-red);text-shadow:0 0 6px var(--neon-red);}
+.rules-list li.info::before{color:var(--neon-cyan);text-shadow:0 0 6px var(--neon-cyan);}
+.example-box{margin-top:7px;border:1px solid var(--border);overflow:hidden;}
+.example-header{background:var(--paper-dark);padding:4px 10px;font-size:clamp(9px,1.1vw,10px);color:var(--ink-dim);letter-spacing:2px;border-bottom:1px solid var(--border);}
+.example-body{padding:7px 11px;}
+.ex-bad{border-color:rgba(255,34,68,0.4);} .ex-good{border-color:rgba(0,255,136,0.4);}
+.ex-bad .example-header{color:var(--neon-red);text-shadow:0 0 6px var(--neon-red);}
+.ex-good .example-header{color:var(--neon-green);text-shadow:0 0 6px var(--neon-green);}
+.ex-line{font-size:clamp(10px,1.3vw,12px);color:var(--ink-mid);padding:2px 0;line-height:1.7;}
+.ex-line strong{color:var(--ink);}
+.sanction{margin-top:7px;padding:6px 11px;font-size:clamp(10px,1.3vw,12px);border-left:3px solid;background:rgba(0,0,0,0.2);}
+.sanction-red{border-color:var(--neon-red);color:var(--neon-red);}
+.sanction-orange{border-color:var(--orange);color:var(--orange);}
+.sanction-yellow{border-color:var(--yellow);color:var(--yellow);}
+
+.recap{margin:0 20px 16px;border:1px solid var(--neon-red);background:rgba(255,34,68,0.04);padding:16px;position:relative;overflow:hidden;animation:red-pulse 3s ease-in-out infinite;}
+@keyframes red-pulse{0%,100%{box-shadow:0 0 10px var(--glow-red)}50%{box-shadow:0 0 25px var(--glow-red)}}
+.recap::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 15px,rgba(255,34,68,0.02) 15px,rgba(255,34,68,0.02) 30px);pointer-events:none;}
+.recap-title{font-family:'Orbitron',monospace;font-size:clamp(13px,2.5vw,18px);color:var(--neon-red);text-align:center;letter-spacing:5px;margin-bottom:10px;animation:warning-flash 2s ease-in-out infinite;text-shadow:0 0 15px var(--neon-red);}
+@keyframes warning-flash{0%,100%{opacity:1;text-shadow:0 0 15px var(--neon-red)}50%{opacity:0.7;text-shadow:0 0 30px var(--neon-red)}}
+.recap-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+@media(max-width:480px){.recap-grid{grid-template-columns:1fr;}}
+.recap-item{padding:6px 10px;border:1px solid var(--border);font-size:clamp(9px,1.2vw,11px);color:var(--ink-mid);background:rgba(0,204,255,0.04);line-height:1.6;}
+.recap-item strong{color:var(--neon-cyan);display:block;margin-bottom:2px;text-shadow:0 0 6px var(--neon-cyan);}
+
+.sig-bar{display:grid;grid-template-columns:1fr 1fr 1fr;border-top:1px solid #aaa;margin:0 20px 16px;}
+@media(max-width:480px){.sig-bar{grid-template-columns:1fr;}}
+.sig-cell{padding:9px 11px;font-size:clamp(9px,1.1vw,10px);color:var(--ink-dim);line-height:2;border-right:1px solid #ddd;}
+.sig-cell:last-child{border-right:none;}
+.sig-btn-row{grid-column:1/-1;border-top:1px solid #ccc;padding:11px;display:flex;align-items:center;justify-content:center;gap:10px;}
+.admin-btn{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:2px;padding:8px 18px;cursor:pointer;border:2px solid var(--ink);background:var(--paper-dark);color:var(--ink);transition:all 0.2s;}
+.admin-btn:hover{border-color:var(--red);color:var(--red);}
+.admin-btn:active{transform:scale(0.95);}
+
+.footer{background:var(--paper-dark);border-top:2px solid var(--ink);padding:8px 20px;display:flex;justify-content:space-between;font-size:clamp(8px,1.1vw,10px);color:var(--ink-dim);letter-spacing:2px;}
+.creator-bar{background:#0a0a0a;padding:11px 20px;text-align:center;font-size:clamp(10px,1.4vw,13px);color:#555;letter-spacing:2px;border-top:1px solid #222;}
+.rainbow{font-weight:bold;letter-spacing:3px;font-family:'Orbitron',monospace;animation:rainbow-shift 2s linear infinite;background:linear-gradient(90deg,#ff2244,#ff6600,#ffcc00,#00ff88,#00ccff,#cc44ff,#ff2244);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+@keyframes rainbow-shift{0%{background-position:0% center}100%{background-position:200% center}}
+
+/* MODALS & PANELS */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.82);backdrop-filter:blur(4px);z-index:10000;display:none;align-items:center;justify-content:center;}
+.modal-overlay.open{display:flex;}
+.modal-box{background:#080f1a;border:1px solid var(--neon-cyan);padding:28px 32px;width:min(340px,92vw);font-family:'Share Tech Mono',monospace;box-shadow:0 0 40px rgba(192,57,43,0.4);position:relative;}
+.modal-box h2{font-family:'Orbitron',monospace;font-size:16px;color:var(--neon-cyan);text-shadow:0 0 10px var(--neon-cyan);letter-spacing:3px;text-align:center;margin-bottom:16px;}
+.modal-input{width:100%;background:#0a1525;border:1px solid var(--border);padding:10px 12px;color:var(--ink);font-family:'Share Tech Mono',monospace;font-size:13px;letter-spacing:2px;outline:none;margin-bottom:10px;box-sizing:border-box;transition:border-color 0.2s;}
+.modal-input:focus{border-color:var(--neon-cyan);box-shadow:0 0 8px var(--glow-cyan);}
+.modal-input.error{border-color:var(--neon-red);background:rgba(255,34,68,0.1);}
+.modal-btn{width:100%;background:rgba(0,204,255,0.15);border:1px solid var(--neon-cyan);color:var(--neon-cyan);padding:10px;cursor:pointer;font-family:'VT323',monospace;font-size:18px;letter-spacing:3px;transition:background 0.2s;}
+.modal-btn:hover{background:rgba(0,204,255,0.25);box-shadow:0 0 15px var(--glow-cyan);}
+.modal-close{position:absolute;top:9px;right:11px;background:none;border:none;cursor:pointer;color:#999;font-size:17px;transition:all 0.2s;}
+.modal-close:hover{color:var(--neon-cyan);transform:rotate(90deg);}
+.modal-err{color:var(--neon-red);text-shadow:0 0 6px var(--neon-red);font-size:10px;text-align:center;margin-bottom:9px;display:none;letter-spacing:1px;}
+
+#admin-panel,#vip-panel{position:fixed;top:0;height:100vh;background:#06101a;z-index:9999;transition:right 0.3s ease;overflow-y:auto;padding:20px;font-family:'Share Tech Mono',monospace;}
+#admin-panel{right:-460px;width:440px;border-left:2px solid var(--neon-cyan);box-shadow:-8px 0 28px rgba(0,0,0,0.5);}
+#admin-panel.open{right:0;}
+#vip-panel{right:-390px;width:370px;border-left:2px solid var(--neon-green);box-shadow:-8px 0 24px rgba(0,0,0,0.4);}
+#vip-panel.open{right:0;}
+@media(max-width:480px){#admin-panel{width:100%;right:-100%;}#vip-panel{width:100%;right:-100%;}}
+
+.panel-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;padding-bottom:11px;border-bottom:1px solid var(--neon-cyan);}
+.panel-hdr.vip{border-bottom-color:var(--neon-green);}
+.panel-hdr-title{font-family:'Orbitron',monospace;font-size:14px;color:var(--neon-cyan);letter-spacing:3px;text-shadow:0 0 8px var(--neon-cyan);}
+.panel-hdr-title.vip{color:var(--neon-green);text-shadow:0 0 8px var(--neon-green);}
+.p-section{margin-bottom:18px;}
+.p-section-title{font-size:10px;color:var(--ink-dim);letter-spacing:2px;margin-bottom:7px;text-transform:uppercase;border-bottom:1px dotted #bbb;padding-bottom:3px;}
+.p-label{display:block;font-size:10px;color:var(--ink-dim);margin-bottom:4px;letter-spacing:1px;}
+.p-input{width:100%;background:#0a1525;border:1px solid var(--border);padding:8px 10px;color:var(--ink);font-family:'Share Tech Mono',monospace;font-size:12px;outline:none;margin-bottom:8px;box-sizing:border-box;transition:border-color 0.2s;}
+.p-input:focus{border-color:var(--neon-cyan);}
+textarea.p-input{resize:vertical;min-height:60px;}
+select.p-input{cursor:pointer;}
+.p-btn{width:100%;background:rgba(0,204,255,0.12);border:1px solid var(--neon-cyan);color:var(--neon-cyan);padding:9px;cursor:pointer;font-family:'VT323',monospace;font-size:15px;letter-spacing:2px;margin-top:2px;transition:background 0.2s;}
+.p-btn:hover{background:rgba(0,204,255,0.22);}
+.p-btn.green{background:rgba(0,255,136,0.12);border-color:var(--neon-green);color:var(--neon-green);}.p-btn.green:hover{background:rgba(0,255,136,0.22);}
+.p-btn.danger{background:rgba(255,34,68,0.12);border-color:var(--neon-red);color:var(--neon-red);}.p-btn.danger:hover{background:rgba(255,34,68,0.22);}
+.p-btn.blue{background:rgba(0,204,255,0.12);border-color:var(--neon-cyan);color:var(--neon-cyan);}.p-btn.blue:hover{background:rgba(0,204,255,0.22);}
+.logout-btn{width:100%;margin-top:12px;background:none;border:1px solid var(--border);color:var(--ink-dim);padding:8px;cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:2px;transition:all 0.2s;}
+.logout-btn:hover{border-color:var(--neon-red);color:var(--neon-red);}
+
+.sync-status{font-size:10px;letter-spacing:1px;padding:5px 10px;margin-bottom:11px;border:1px solid #bbb;color:var(--ink-dim);text-align:center;}
+.sync-status.ok{border-color:var(--neon-green);color:var(--neon-green);background:rgba(0,255,136,0.06);}
+.sync-status.err{border-color:var(--neon-red);color:var(--neon-red);background:rgba(255,34,68,0.06);}
+.sync-status.loading{border-color:var(--orange);color:var(--orange);background:rgba(255,102,0,0.06);}
+
+.ann-admin-item{background:#080f1a;border:1px solid var(--border);border-left:2px solid var(--yellow);padding:8px 10px;margin-bottom:7px;font-size:11px;color:var(--ink-mid);line-height:1.6;}
+.ann-admin-item.vip{border-left-color:var(--neon-green);}
+.ann-admin-meta{font-size:9px;margin-bottom:3px;letter-spacing:1px;color:rgba(255,204,0,0.7);}
+.ann-admin-item.vip .ann-admin-meta{color:var(--green);}
+.ann-admin-actions{display:flex;gap:5px;margin-top:5px;}
+.ann-admin-btn{flex:1;background:none;border:1px solid #bbb;color:var(--ink-dim);cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:9px;padding:3px 6px;text-align:center;transition:all 0.2s;}
+.ann-admin-btn.edit:hover{border-color:var(--blue);color:var(--blue);}
+.ann-admin-btn.del:hover{border-color:var(--red);color:var(--red);}
+.ann-edit-zone{display:none;margin-top:5px;}
+.ann-edit-box{width:100%;background:#0a1525;border:1px solid var(--neon-cyan);color:var(--ink);padding:5px 8px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--ink);resize:vertical;min-height:42px;box-sizing:border-box;outline:none;}
+.ann-edit-save{background:rgba(0,204,255,0.2);border:1px solid var(--neon-cyan);color:var(--neon-cyan);border:none;color:#fff;padding:4px 12px;cursor:pointer;font-family:'VT323',monospace;font-size:13px;letter-spacing:1px;margin-top:4px;}
+
+.vip-ann-item{background:rgba(0,255,136,0.04);border:1px solid rgba(0,255,136,0.2);border-left:2px solid var(--neon-green);padding:8px 10px;margin-bottom:7px;font-size:11px;color:#1a3a2a;line-height:1.6;}
+.vip-ann-meta{color:var(--neon-green);font-size:9px;margin-bottom:3px;letter-spacing:1px;}
+.vip-ann-actions{display:flex;gap:5px;margin-top:5px;}
+.vip-ann-btn{flex:1;background:none;cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:9px;padding:3px 6px;text-align:center;transition:all 0.2s;}
+.vip-ann-btn.edit{border:1px solid var(--green);color:var(--green);}
+.vip-ann-btn.del{border:1px solid var(--red);color:var(--red);}
+.vip-edit-zone{display:none;margin-top:5px;}
+.vip-edit-box{width:100%;background:#0a1a10;border:1px solid var(--neon-green);color:var(--ink);padding:5px 8px;font-family:'Share Tech Mono',monospace;font-size:11px;color:#1a3a2a;resize:vertical;min-height:42px;box-sizing:border-box;outline:none;}
+.vip-edit-save{background:rgba(0,255,136,0.15);border:1px solid var(--neon-green);color:var(--neon-green);border:none;color:#fff;padding:4px 12px;cursor:pointer;font-family:'VT323',monospace;font-size:13px;letter-spacing:1px;margin-top:4px;}
+
+.flash-msg{position:fixed;bottom:18px;right:18px;background:#060f1a;border:1px solid var(--neon-green);color:var(--neon-green);text-shadow:0 0 8px var(--neon-green);padding:8px 15px;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:1px;z-index:20000;opacity:0;transition:opacity 0.3s;pointer-events:none;}
+#ann-flash-banner{position:fixed;top:-65px;left:0;right:0;z-index:20000;background:linear-gradient(90deg,#111,var(--red),#111);color:#fff;font-family:'VT323',monospace;font-size:17px;letter-spacing:3px;text-align:center;padding:11px 20px;border-bottom:2px solid var(--red);box-shadow:0 4px 18px rgba(192,57,43,0.5);transition:top 0.4s cubic-bezier(0.22,1,0.36,1);}
+#ann-flash-banner.vip-banner{background:linear-gradient(90deg,#111,var(--green),#111);border-bottom-color:var(--green);}
+#ann-flash-banner.show{top:0;}
+</style>
+</head>
+<body>
+<div id="main">
+<div class="document">
+<div class="stamp">RÈGLEMENT OFFICIEL</div>
+<div class="alert-bar">
+  <span>⬛ FONDATION SCP — RÈGLEMENT RP OFFICIEL</span>
+  <div class="alert-dot"></div>
+  <span>SERVEUR ROBLOX ⬛</span>
+</div>
+<div class="header">
+  <div class="header-left">FONDATION SCP<br>RÈGLEMENT INTERNE<br>SERVEUR ROBLOX</div>
+  <div class="header-center">
+    <div class="scp-logo">
+      <svg width="50" height="32" viewBox="-1.15 -0.65 2.3 1.3">
+        <path d="M 0.85,0 L0.51,0.3 L0,0 L-0.51,-0.3 L-0.85,0 L-0.51,0.3 L0,0 L0.51,-0.3 Z" fill="none" stroke="rgba(0,204,255,0.3)" stroke-width="0.07"/>
+        <path d="M 0.85,0 L0.51,0.3 L0,0 L-0.51,-0.3 L-0.85,0 L-0.51,0.3 L0,0 L0.51,-0.3 Z" fill="none" stroke="#00ccff" stroke-width="0.07" stroke-dasharray="6 0.01" stroke-dashoffset="0">
+          <animate attributeName="stroke-dashoffset" from="6" to="0" dur="2.5s" repeatCount="indefinite"/>
+        </path>
+      </svg>
+    </div>
+    <div class="doc-title">RÈGLEMENT RP — FONDATION SCP</div>
+    <div class="doc-ref">Ref : RP-RULES-02 | Serveur Roblox | Rev.002</div>
+  </div>
+  <div class="header-right">DOCUMENT OFFICIEL<br>REDISTRIBUTION LIBRE<br>VERSION : 2.0</div>
+</div>
+<div class="badges">
+  <div class="badge badge-doc">RÈGLEMENT OFFICIEL</div>
+  <div class="badge badge-server">ROBLOX SCP RP</div>
+  <div class="badge badge-version">✓ VERSION 2.0</div>
+</div>
+
+<div id="annonces-wrapper"></div>
+
+<div class="intro section">Ce document contient l'ensemble des règles de roleplay à respecter sur notre serveur Roblox SCP. Le non-respect de ces règles peut entraîner des sanctions allant du simple avertissement au bannissement définitif. <strong>Tout joueur présent sur le serveur est considéré comme ayant lu et accepté ce règlement.</strong></div>
+
+<div class="section">
+  <div class="section-title title-red"><span class="badge-num num-red">I</span>FEAR RP — RÈGLE DE LA PEUR</div>
+  <div class="definition"><strong>Définition :</strong> Le Fear RP oblige ton personnage à réagir de manière réaliste face au danger. Si ton personnage est en danger de mort (arme pointée, SCP en face, otage…), il doit avoir <strong>peur et obéir</strong> — pas foncer tête baissée.</div>
+  <ul class="rules-list">
+    <li class="bad" data-icon="✗">Continuer à courir ou attaquer quand une arme est pointée sur toi à bout portant.</li>
+    <li class="bad" data-icon="✗">Ignorer un SCP qui te menace directement.</li>
+    <li class="bad" data-icon="✗">Faire comme si ton personnage était invincible ou sans émotions.</li>
+    <li class="ok" data-icon="✓">Lever les mains, obéir ou négocier quand tu es pris en otage.</li>
+    <li class="ok" data-icon="✓">Fuir ou se cacher face à un SCP que ton personnage ne peut pas combattre.</li>
+    <li class="ok" data-icon="✓">Montrer la peur via le chat RP : <em>*tremble*, *recule lentement*</em></li>
+  </ul>
+  <div class="example-box ex-bad"><div class="example-header">✗ EXEMPLE INTERDIT</div><div class="example-body"><div class="ex-line"><strong>[Agent]</strong> *pointe son arme* « Ne bouge plus ou je tire ! »</div><div class="ex-line"><strong>[Joueur]</strong> *continue de courir sans réagir*</div></div></div>
+  <div class="example-box ex-good" style="margin-top:5px;"><div class="example-header">✓ EXEMPLE CORRECT</div><div class="example-body"><div class="ex-line"><strong>[Agent]</strong> *pointe son arme* « Ne bouge plus ou je tire ! »</div><div class="ex-line"><strong>[Joueur]</strong> *lève les mains* « Ok... je ne bouge pas. »</div></div></div>
+  <div class="sanction sanction-orange">⚠ SANCTION : Avertissement → Kick → Ban temporaire selon récidive.</div>
+</div>
+
+<div class="section">
+  <div class="section-title title-orange"><span class="badge-num num-orange">II</span>METAGAMING</div>
+  <div class="definition"><strong>Définition :</strong> Utiliser des informations obtenues <strong>hors du jeu</strong> (Discord, streams…) pour en tirer avantage <strong>en jeu</strong>. Ton personnage ne sait que ce qu'il a vécu en jeu.</div>
+  <ul class="rules-list">
+    <li class="bad" data-icon="✗">Utiliser les infos du Discord (position d'un SCP, plan d'attaque) en jeu.</li>
+    <li class="bad" data-icon="✗">Reconnaître un joueur par son pseudo Roblox sans que son personnage te l'ait dit.</li>
+    <li class="bad" data-icon="✗">Regarder le stream d'un ami pour localiser les ennemis.</li>
+    <li class="ok" data-icon="✓">N'utiliser que les informations obtenues en RP, en jeu.</li>
+    <li class="ok" data-icon="✓">Partager les infos via le chat RP ou en jeu uniquement.</li>
+  </ul>
+  <div class="sanction sanction-red">⛔ SANCTION : Ban temporaire immédiat. Ban définitif en cas de récidive.</div>
+</div>
+
+<div class="section">
+  <div class="section-title title-yellow"><span class="badge-num num-yellow">III</span>POWERGAMING</div>
+  <div class="definition"><strong>Définition :</strong> Donner à son personnage des capacités <strong>irréalistes</strong> ou ne pas laisser les autres réagir. Jouer de façon injuste et égoïste.</div>
+  <ul class="rules-list">
+    <li class="bad" data-icon="✗">Écrire des actions que l'autre ne peut pas contrer : <em>*te tue instantanément*</em></li>
+    <li class="bad" data-icon="✗">Se déclarer invincible ou capable de tout faire seul.</li>
+    <li class="bad" data-icon="✗">Ignorer les blessures reçues en combat RP.</li>
+    <li class="ok" data-icon="✓">Écrire des actions qui laissent une réponse possible : <em>*tente de te désarmer*</em></li>
+    <li class="ok" data-icon="✓">Respecter les limites réalistes de ton personnage selon son rang.</li>
+  </ul>
+  <div class="sanction sanction-orange">⚠ SANCTION : Avertissement → Kick → Ban temporaire.</div>
+</div>
+
+<div class="section">
+  <div class="section-title title-green"><span class="badge-num num-green">IV</span>NLR — NEW LIFE RULE</div>
+  <div class="definition"><strong>Définition :</strong> Quand ton personnage meurt, il <strong>perd toute mémoire</strong> de sa vie précédente. Il ne se souvient plus de sa mort, ses ennemis, ni de ce qu'il a vécu.</div>
+  <ul class="rules-list">
+    <li class="bad" data-icon="✗">Retourner immédiatement à l'endroit où tu es mort pour te venger.</li>
+    <li class="bad" data-icon="✗">Utiliser les informations de ta vie précédente.</li>
+    <li class="bad" data-icon="✗">Reprendre une mission que ton personnage avait avant de mourir.</li>
+    <li class="info" data-icon="ℹ">Le NLR dure <strong>10 minutes minimum</strong> après ta mort.</li>
+    <li class="ok" data-icon="✓">Te comporter comme un personnage qui ne sait rien de ce qui vient de se passer.</li>
+  </ul>
+  <div class="sanction sanction-orange">⚠ SANCTION : Kick → Ban temporaire selon gravité.</div>
+</div>
+
+<div class="section">
+  <div class="section-title title-blue"><span class="badge-num num-blue">V</span>RDA — ARRESTATION ABUSIVE</div>
+  <div class="definition"><strong>Définition :</strong> Le RDA consiste à arrêter, détenir ou emprisonner un joueur <strong>sans raison RP valable</strong>. Toute arrestation doit être justifiée par une infraction réelle commise en jeu.</div>
+  <ul class="rules-list">
+    <li class="bad" data-icon="✗">Arrêter quelqu'un uniquement parce que tu ne l'aimes pas.</li>
+    <li class="bad" data-icon="✗">Détenir un joueur indéfiniment sans protocole ou interrogatoire.</li>
+    <li class="bad" data-icon="✗">Garder quelqu'un en cellule plus de 20 minutes sans raison RP active.</li>
+    <li class="ok" data-icon="✓">Arrêter uniquement en cas d'infraction constatée : intrusion, agression, désobéissance.</li>
+    <li class="ok" data-icon="✓">Informer le détenu de la raison de son arrestation en RP.</li>
+    <li class="info" data-icon="ℹ">Seuls les agents de rang Lieutenant ou supérieur peuvent ordonner une arrestation.</li>
+  </ul>
+  <div class="sanction sanction-orange">⚠ SANCTION : Avertissement → Kick → Ban temporaire selon récidive.</div>
+</div>
+
+<div class="section">
+  <div class="section-title title-purple"><span class="badge-num num-purple">VI</span>ORDRE HIÉRARCHIQUE</div>
+  <div class="definition"><strong>Définition :</strong> La Fondation SCP fonctionne sur une hiérarchie stricte. Tout membre doit <strong>obéir aux ordres de ses supérieurs</strong> dans le cadre du RP, sauf si l'ordre viole la charte éthique.</div>
+  <ul class="rules-list">
+    <li class="bad" data-icon="✗">Ignorer ou contester les ordres d'un supérieur sans raison RP valable.</li>
+    <li class="bad" data-icon="✗">Prendre des initiatives qui dépassent ton rang sans autorisation.</li>
+    <li class="bad" data-icon="✗">Donner des ordres à des agents de rang supérieur au tien.</li>
+    <li class="ok" data-icon="✓">Obéir aux ordres dans le cadre de ta mission et de ton rang.</li>
+    <li class="ok" data-icon="✓">Remonter un ordre douteux à un supérieur encore plus haut.</li>
+    <li class="info" data-icon="ℹ">Ordre de priorité : O5 › Administrateur de site › Commandant MTF › Agent senior › Agent.</li>
+  </ul>
+  <div class="sanction sanction-orange">⚠ SANCTION : Désobéissance répétée = rétrogradation + ban temporaire.</div>
+</div>
+
+<div class="section">
+  <div class="section-title title-teal"><span class="badge-num num-teal">VII</span>PRISE D'OTAGE</div>
+  <div class="definition"><strong>Définition :</strong> La prise d'otage est une action RP encadrée. Elle doit avoir une <strong>motivation RP claire</strong> et respecter des règles précises pour que la situation soit fun et équitable.</div>
+  <ul class="rules-list">
+    <li class="bad" data-icon="✗">Prendre un otage sans raison RP (juste pour embêter un joueur).</li>
+    <li class="bad" data-icon="✗">Tuer l'otage immédiatement sans tentative de négociation.</li>
+    <li class="bad" data-icon="✗">Garder un otage plus de <strong>30 minutes</strong> sans faire avancer le RP.</li>
+    <li class="ok" data-icon="✓">Avoir une demande RP claire : liberté d'un prisonnier, accès à une zone, fuite…</li>
+    <li class="ok" data-icon="✓">L'otage doit appliquer le Fear RP.</li>
+  </ul>
+  <div class="sanction sanction-orange">⚠ SANCTION : Prise d'otage abusive = Kick + avertissement. Récidive = Ban temporaire.</div>
+</div>
+
+<div class="section">
+  <div class="section-title title-green"><span class="badge-num num-green">VIII</span>PROTOCOLE D'ÉVACUATION</div>
+  <div class="definition"><strong>Définition :</strong> En cas de brèche ou d'alerte majeure, le protocole d'évacuation doit être suivi en RP. Chaque rang a un rôle précis.</div>
+  <ul class="rules-list">
+    <li class="bad" data-icon="✗">Rester dans les zones dangereuses sans raison RP valable pendant une alerte.</li>
+    <li class="bad" data-icon="✗">Bloquer les couloirs d'évacuation ou empêcher les autres de fuir.</li>
+    <li class="ok" data-icon="✓">Le personnel civil se dirige vers les zones sécurisées désignées.</li>
+    <li class="ok" data-icon="✓">Les agents MTF restent pour contenir la menace et sécuriser l'évacuation.</li>
+    <li class="info" data-icon="ℹ">Protocole SILENCE ROUGE : évacuation silencieuse — aucun son autorisé (SCP auditifs).</li>
+    <li class="info" data-icon="ℹ">Protocole MONDE INVERSE : confinement total du site — personne n'entre ou ne sort.</li>
+  </ul>
+  <div class="sanction sanction-yellow">⚠ SANCTION : Obstruction à l'évacuation = Kick immédiat.</div>
+</div>
+
+<div class="section">
+  <div class="section-title title-orange"><span class="badge-num num-orange">IX</span>FAILRP — ÉCHEC DU ROLEPLAY</div>
+  <div class="definition"><strong>Définition :</strong> Le FailRP consiste à agir de façon <strong>complètement incohérente</strong> avec ton personnage ou la situation RP. C'est briser l'immersion par des actions impossibles ou absurdes.</div>
+  <ul class="rules-list">
+    <li class="bad" data-icon="✗">Parler en dehors du RP sans utiliser // ou (( )).</li>
+    <li class="bad" data-icon="✗">Faire des actions impossibles pour ton rang : un scientifique qui combat comme un soldat d'élite.</li>
+    <li class="bad" data-icon="✗">Se déconnecter pendant une scène RP importante pour éviter les conséquences.</li>
+    <li class="ok" data-icon="✓">Rester dans le personnage en toutes circonstances.</li>
+    <li class="ok" data-icon="✓">Agir selon les capacités réelles de ton rang et de ta formation.</li>
+  </ul>
+  <div class="sanction sanction-orange">⚠ SANCTION : Avertissement → Kick → Ban temporaire selon gravité.</div>
+</div>
+
+<div class="section">
+  <div class="section-title title-red"><span class="badge-num num-red">X</span>GESTION DES BRÈCHES MULTIPLES</div>
+  <div class="definition"><strong>Définition :</strong> Une brèche multiple survient quand <strong>plusieurs SCP s'échappent simultanément</strong>. C'est le scénario le plus dangereux du serveur. Chaque joueur a un rôle précis.</div>
+  <ul class="rules-list">
+    <li class="bad" data-icon="✗">Partir seul chasser un SCP sans coordination avec son équipe.</li>
+    <li class="bad" data-icon="✗">Profiter du chaos pour attaquer des alliés ou voler du matériel.</li>
+    <li class="ok" data-icon="✓">Le commandant désigne immédiatement une équipe par SCP en fuite.</li>
+    <li class="ok" data-icon="✓">Priorité : SCP Keter en premier, puis Euclide, puis Safe.</li>
+    <li class="info" data-icon="ℹ">En brèche multiple : activation automatique du protocole ROUGE ABSOLU — évacuation totale du site.</li>
+  </ul>
+  <div class="sanction sanction-red">⛔ Désorganisation volontaire pendant une brèche = Ban temporaire immédiat.</div>
+</div>
+
+<div class="section">
+  <div class="section-title title-purple"><span class="badge-num num-purple">XI</span>INTERACTION AVEC LES SCP CONFINÉS</div>
+  <div class="definition"><strong>Définition :</strong> Les SCP confinés sont des entités dangereuses. Toute interaction doit être <strong>encadrée, autorisée et documentée</strong>.</div>
+  <ul class="rules-list">
+    <li class="bad" data-icon="✗">Entrer dans la cellule d'un SCP sans autorisation de niveau 3 minimum.</li>
+    <li class="bad" data-icon="✗">Ouvrir volontairement la cellule d'un SCP pour créer une brèche.</li>
+    <li class="ok" data-icon="✓">Les expériences sur les SCP doivent être autorisées par un scientifique niveau 3+.</li>
+    <li class="ok" data-icon="✓">Toujours être accompagné d'au moins un agent armé lors d'une interaction.</li>
+    <li class="ok" data-icon="✓">Documenter chaque interaction dans un rapport RP après la session.</li>
+  </ul>
+  <div class="sanction sanction-red">⛔ Ouverture volontaire d'une cellule SCP = Ban temporaire. Récidive = Ban définitif.</div>
+</div>
+
+<div class="section">
+  <div class="section-title title-teal"><span class="badge-num num-teal">XII</span>PROTOCOLE D'INTERROGATOIRE</div>
+  <div class="definition"><strong>Définition :</strong> L'interrogatoire est une scène RP encadrée. Il doit être <strong>réaliste, limité dans le temps</strong> et ne pas dériver vers du harcèlement ou du powergaming.</div>
+  <ul class="rules-list">
+    <li class="bad" data-icon="✗">Forcer le prisonnier à révéler des informations via du powergaming.</li>
+    <li class="bad" data-icon="✗">Dépasser <strong>30 minutes</strong> d'interrogatoire sans accord du joueur.</li>
+    <li class="ok" data-icon="✓">Le prisonnier a le droit de garder le silence ou de mentir — c'est du RP valide.</li>
+    <li class="ok" data-icon="✓">Toute méthode avancée doit être acceptée par les deux joueurs.</li>
+    <li class="info" data-icon="ℹ">Seuls les agents de rang Inspecteur ou supérieur peuvent conduire un interrogatoire.</li>
+  </ul>
+  <div class="sanction sanction-orange">⚠ SANCTION : Interrogatoire abusif = Avertissement → Kick → Ban temporaire.</div>
+</div>
+
+<div class="recap section">
+  <div class="recap-title">[ RÉSUMÉ DES RÈGLES ]</div>
+  <div class="recap-grid">
+    <div class="recap-item"><strong>FEAR RP</strong>Réagis de façon réaliste face au danger.</div>
+    <div class="recap-item"><strong>METAGAMING</strong>Utilise uniquement les infos obtenues en jeu.</div>
+    <div class="recap-item"><strong>POWERGAMING</strong>Laisse les autres réagir. Respecte tes limites.</div>
+    <div class="recap-item"><strong>NLR</strong>À la mort = nouvelle vie. 10 min de délai minimum.</div>
+    <div class="recap-item"><strong>RDA</strong>Toute arrestation doit avoir une raison RP valable.</div>
+    <div class="recap-item"><strong>ORDRE HIÉRARCHIQUE</strong>Obéis à tes supérieurs. Remonte les conflits aux O5.</div>
+    <div class="recap-item"><strong>PRISE D'OTAGE</strong>Motivation RP claire. Max 30 min. Fear RP obligatoire.</div>
+    <div class="recap-item"><strong>BRÈCHES MULTIPLES</strong>Priorité Keter. Coordination obligatoire. Protocole ROUGE ABSOLU.</div>
+    <div class="recap-item"><strong>INTERACTION SCP</strong>Autorisation niveau 3 requise. Toujours accompagné. Documenter.</div>
+    <div class="recap-item"><strong>INTERROGATOIRE</strong>Max 30 min. Silence = droit RP. Pas de powergaming.</div>
+    <div class="recap-item"><strong>FAILRP</strong>Reste dans ton personnage. Agis selon ton rang et la situation.</div>
+    <div class="recap-item" style="grid-column:1/-1;"><strong>PROTOCOLE D'ÉVACUATION</strong>Chaque rang a un rôle. Suis les ordres du commandant. Respecte les protocoles SILENCE ROUGE et MONDE INVERSE.</div>
+  </div>
+</div>
+
+<div class="sig-bar section">
+  <div class="sig-cell">Rédigé par : Staff Fondation<br>Date : N/A<br>Serveur Roblox SCP</div>
+  <div class="sig-cell">Approuvé par : Administration<br>Mis à jour : N/A<br>Application : Immédiate</div>
+  <div class="sig-cell">Version : 2.0<br>Sanctions : Applicables<br>Contact : Staff en jeu</div>
+  <div class="sig-btn-row">
+    <button class="admin-btn" onclick="openLogin()">⚙ ADMIN</button>
+  </div>
+</div>
+
+<div class="footer">
+  <span>FONDATION SCP — RÈGLEMENT OFFICIEL — SERVEUR ROBLOX</span>
+  <span>PAGE 1 / 1</span>
+</div>
+</div>
+<div class="creator-bar"><span class="rainbow">Créateur du HTML : Luluclc3</span></div>
+</div>
+
+<!-- BANDEAU -->
+<div id="ann-flash-banner">📢 NOUVELLE ANNONCE — FONDATION SCP</div>
+
+<!-- LOGIN -->
+<div class="modal-overlay" id="login-modal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeLogin()">✕</button>
+    <h2>// ACCÈS //</h2>
+    <input class="modal-input" type="password" id="pwd-input" placeholder="MOT DE PASSE" onkeydown="if(event.key==='Enter')checkPwd()">
+    <div class="modal-err" id="pwd-err">⚠ MOT DE PASSE INCORRECT</div>
+    <button class="modal-btn" onclick="checkPwd()">ACCÉDER</button>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div id="admin-panel">
+  <div class="panel-hdr">
+    <span class="panel-hdr-title">// PANEL ADMIN //</span>
+    <button class="modal-close" onclick="closePanel()">✕</button>
+  </div>
+  <div class="sync-status loading" id="sync-status">⟳ CONNEXION...</div>
+  <div class="p-section">
+    <div class="p-section-title">📢 Publier une Annonce</div>
+    <label class="p-label">TEXTE</label>
+    <textarea class="p-input" id="ann-text" placeholder="Message pour tous les joueurs..."></textarea>
+    <button class="p-btn" onclick="addAnnonce()">+ PUBLIER</button>
+  </div>
+  <div class="p-section">
+    <div class="p-section-title">📋 Liste des Annonces <span id="ann-count" style="color:var(--red);font-size:10px;"></span></div>
+    <div id="ann-admin-list"><div style="color:#aaa;font-size:11px;text-align:center;padding:8px;">Chargement...</div></div>
+    <button class="p-btn blue" onclick="loadAnnonces()" style="margin-top:5px;">↻ ACTUALISER</button>
+    <button class="p-btn danger" onclick="deleteAllAnnonces()" style="margin-top:5px;">🗑 TOUT SUPPRIMER</button>
+  </div>
+  <div class="p-section">
+    <div class="p-section-title">📋 Ajouter une Règle</div>
+    <label class="p-label">NUMÉRO / SECTION</label>
+    <input class="p-input" id="new-section" placeholder="Ex: XIII — NOUVELLE RÈGLE">
+    <label class="p-label">TITRE</label>
+    <input class="p-input" id="new-rule-title" placeholder="Titre de la règle">
+    <label class="p-label">DÉFINITION</label>
+    <textarea class="p-input" id="new-rule-def" placeholder="Définition..."></textarea>
+    <label class="p-label">SANCTION</label>
+    <input class="p-input" id="new-rule-sanction" placeholder="Ex: ⚠ Avertissement → Ban">
+    <label class="p-label">COULEUR</label>
+    <select class="p-input" id="new-rule-color">
+      <option value="red">Rouge</option><option value="orange">Orange</option>
+      <option value="yellow">Jaune</option><option value="green">Vert</option>
+      <option value="blue">Bleu</option><option value="purple">Violet</option>
+      <option value="teal">Teal</option>
+    </select>
+    <button class="p-btn" onclick="addRule()">+ AJOUTER LA RÈGLE</button>
+  </div>
+  <div class="p-section">
+    <div class="p-section-title">🗑 Supprimer une Règle</div>
+    <select class="p-input" id="del-rule-sel"><option value="">-- Sélectionner --</option></select>
+    <button class="p-btn danger" onclick="deleteRule()">⚠ SUPPRIMER</button>
+  </div>
+  <button class="logout-btn" onclick="logout()">[ DÉCONNEXION ]</button>
+</div>
+
+<!-- VIP PANEL -->
+<div id="vip-panel">
+  <div class="panel-hdr vip">
+    <span class="panel-hdr-title vip">// PANEL VIP //</span>
+    <button class="modal-close" onclick="closeVipPanel()">✕</button>
+  </div>
+  <div style="font-size:10px;color:var(--green);letter-spacing:1px;padding:5px 10px;margin-bottom:11px;border:1px solid var(--green);background:rgba(39,174,96,0.06);text-align:center;">⭐ CONNECTÉ EN TANT QUE VIP</div>
+  <div class="p-section">
+    <div class="p-section-title">📢 Publier une Annonce VIP</div>
+    <label class="p-label">TEXTE</label>
+    <textarea class="p-input" id="vip-ann-text" placeholder="Ton annonce VIP..."></textarea>
+    <button class="p-btn green" onclick="addVipAnnonce()">⭐ PUBLIER</button>
+  </div>
+  <div class="p-section">
+    <div class="p-section-title">📋 Mes Annonces <span id="vip-ann-count" style="color:var(--green);font-size:10px;"></span><span id="vip-refresh-status" style="float:right;color:var(--green);font-size:9px;">↻ auto</span></div>
+    <div id="vip-ann-list"><div style="color:#aaa;font-size:11px;text-align:center;padding:8px;">Chargement...</div></div>
+  </div>
+  <button class="logout-btn" style="border-color:var(--green);color:var(--green);" onclick="logoutVip()">[ DÉCONNEXION VIP ]</button>
+</div>
+
+<div class="flash-msg" id="flash-msg"></div>
+
+<script>
+const ADMIN_PWD="Luluclc34?",VIP_PWD="Vipsecret";
+const BIN_ID="69b9aaaeb7ec241ddc7939af";
+const API_KEY="$2a$10$wtpC523scrPDxkSnkdwSF.60afKF/PZt8R5qpBQZk63Pb9663tfim";
+const BIN_URL="https://api.jsonbin.io/v3/b/"+BIN_ID;
+const HR={"X-Master-Key":API_KEY};
+const HRW={"X-Master-Key":API_KEY,"Content-Type":"application/json"};
+
+let isAdmin=false,isVip=false,annonces=[],_lastCount=-1;
+let extraRules=JSON.parse(localStorage.getItem('scp_rules')||'[]');
+let _vipOpen=false,_vipIv=null;
+
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');}
+function flash(m){const e=document.getElementById('flash-msg');e.textContent=m;e.style.opacity='1';setTimeout(()=>e.style.opacity='0',2500);}
+function setSS(t,m){const e=document.getElementById('sync-status');if(e){e.className='sync-status '+t;e.textContent=m;}}
+
+// JSONBIN
+async function loadAnnonces(){
+  setSS('loading','⟳ CHARGEMENT...');
+  try{const r=await fetch(BIN_URL+"/latest",{headers:HR});if(!r.ok)throw new Error(r.status);const d=await r.json();annonces=d.record.annonces||[];renderAnnonces();renderAdminList();setSS('ok','✓ SYNCHRONISÉ — '+annonces.length+' annonce(s)');}
+  catch(e){setSS('err','✗ ERREUR : '+e.message);}
+}
+async function saveAnnonces(){
+  setSS('loading','⟳ SAUVEGARDE...');
+  try{const r=await fetch(BIN_URL,{method:'PUT',headers:HRW,body:JSON.stringify({annonces})});if(!r.ok)throw new Error(r.status);renderAnnonces();renderAdminList();setSS('ok','✓ SAUVEGARDÉ — '+annonces.length+' annonce(s)');}
+  catch(e){setSS('err','✗ ERREUR SAUVEGARDE');}
+}
+
+// RENDER
+function renderAnnonces(){
+  const w=document.getElementById('annonces-wrapper');
+  if(!annonces.length){w.innerHTML='';return;}
+  w.innerHTML='<div class="ann-section-title">📢 ANNONCES OFFICIELLES</div>'+
+    annonces.map(a=>`<div class="ann-card${a.vip?' vip':''}"><div class="ann-meta">${a.vip?'⭐':'📢'} ${esc(a.date)} — ${a.vip?'ANNONCE VIP <span class="vip-badge">VIP</span>':'ANNONCE OFFICIELLE'}</div><div class="ann-text">${esc(a.text)}</div></div>`).join('');
+}
+
+function renderAdminList(){
+  const list=document.getElementById('ann-admin-list'),count=document.getElementById('ann-count');
+  if(!list)return;
+  if(count)count.textContent='('+annonces.length+')';
+  if(!annonces.length){list.innerHTML='<div style="color:#aaa;font-size:11px;text-align:center;padding:8px;">Aucune annonce</div>';return;}
+  list.innerHTML=annonces.map((a,i)=>`
+    <div class="ann-admin-item${a.vip?' vip':''}">
+      <div class="ann-admin-meta">${a.vip?'⭐':'📢'} ${esc(a.date)} <span style="background:${a.vip?'var(--green)':'var(--red)'};color:#fff;font-size:8px;padding:1px 5px;letter-spacing:1px;">${a.vip?'VIP':'ADMIN'}</span></div>
+      <div style="white-space:pre-wrap;margin-bottom:4px;font-size:11px;">${esc(a.text)}</div>
+      <div class="ann-admin-actions">
+        <button class="ann-admin-btn edit" onclick="toggleAEdit(${i})">✏ MODIFIER</button>
+        <button class="ann-admin-btn del" onclick="delAnn(${i})">🗑 SUPPRIMER</button>
+      </div>
+      <div class="ann-edit-zone" id="aez-${i}">
+        <textarea class="ann-edit-box" id="aei-${i}">${a.text}</textarea>
+        <button class="ann-edit-save" onclick="saveAEdit(${i})">✓ ENREGISTRER</button>
+      </div>
+    </div>`).join('');
+}
+
+function toggleAEdit(i){const z=document.getElementById('aez-'+i);z.style.display=z.style.display==='block'?'none':'block';if(z.style.display==='block')document.getElementById('aei-'+i).focus();}
+async function saveAEdit(i){const t=document.getElementById('aei-'+i).value.trim();if(!t)return;annonces[i].text=t;await saveAnnonces();flash('✏ Modifiée !');}
+async function delAnn(i){if(!confirm('Supprimer cette annonce ?'))return;annonces.splice(i,1);await saveAnnonces();flash('🗑 Supprimée');}
+async function deleteAllAnnonces(){if(!confirm('⚠ Supprimer TOUTES les annonces ?'))return;annonces=[];await saveAnnonces();flash('🗑 Toutes supprimées !');}
+async function addAnnonce(){
+  const text=document.getElementById('ann-text').value.trim();if(!text)return;
+  const now=new Date();
+  annonces.unshift({text,date:now.toLocaleDateString('fr-FR')+' '+now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})});
+  document.getElementById('ann-text').value='';
+  await saveAnnonces();notif(false);flash('📢 Annonce publiée !');
+}
+
+// RÈGLES
+function renderExtraRules(){
+  document.querySelectorAll('.extra-rule').forEach(e=>e.remove());
+  const recap=document.querySelector('.recap');
+  if(!recap||!extraRules.length){updateDelSelect();return;}
+  extraRules.slice().reverse().forEach((r,ri)=>{
+    const idx=extraRules.length-1-ri;
+    const div=document.createElement('div');div.className='section extra-rule';
+    const btn=isAdmin?`<button onclick="delRule(${idx})" style="float:right;background:none;border:1px solid var(--red);color:var(--red);cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:9px;padding:2px 7px;">✕</button>`:'';
+    div.innerHTML=`<div class="section-title title-${r.color}">${btn}<span class="badge-num num-${r.color}">${esc(r.section)}</span>${esc(r.title)}</div><div class="definition"><strong>Définition :</strong> ${esc(r.def)}</div><div class="sanction sanction-orange">${esc(r.sanction)}</div>`;
+    recap.before(div);
+  });updateDelSelect();
+}
+function addRule(){
+  const s=document.getElementById('new-section').value.trim(),t=document.getElementById('new-rule-title').value.trim();
+  if(!s||!t){flash('⚠ Section + titre requis');return;}
+  extraRules.push({section:s,title:t,def:document.getElementById('new-rule-def').value.trim()||'Voir staff.',sanction:document.getElementById('new-rule-sanction').value.trim()||'⚠ Sanction selon gravité.',color:document.getElementById('new-rule-color').value});
+  ['new-section','new-rule-title','new-rule-def','new-rule-sanction'].forEach(id=>document.getElementById(id).value='');
+  localStorage.setItem('scp_rules',JSON.stringify(extraRules));renderExtraRules();flash('✓ Règle ajoutée !');
+}
+function delRule(i){if(!confirm('Supprimer cette règle ?'))return;extraRules.splice(i,1);localStorage.setItem('scp_rules',JSON.stringify(extraRules));renderExtraRules();flash('🗑 Supprimée');}
+function deleteRule(){const v=document.getElementById('del-rule-sel').value;if(v!=='')delRule(parseInt(v));}
+function updateDelSelect(){const sel=document.getElementById('del-rule-sel');if(!sel)return;sel.innerHTML='<option value="">-- Sélectionner --</option>'+extraRules.map((r,i)=>`<option value="${i}">${esc(r.section)} — ${esc(r.title)}</option>`).join('');}
+
+// VIP
+async function addVipAnnonce(){
+  const text=document.getElementById('vip-ann-text').value.trim();if(!text)return;
+  try{const r=await fetch(BIN_URL+"/latest",{headers:HR});const d=await r.json();annonces=d.record.annonces||[];}catch(e){}
+  const now=new Date();
+  annonces.unshift({text,date:now.toLocaleDateString('fr-FR')+' '+now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}),vip:true});
+  document.getElementById('vip-ann-text').value='';
+  try{const r=await fetch(BIN_URL,{method:'PUT',headers:HRW,body:JSON.stringify({annonces})});if(!r.ok)throw new Error();renderAnnonces();renderVipList();notif(true);flash('⭐ Annonce VIP publiée !');}
+  catch(e){flash('✗ Erreur');}
+}
+function renderVipList(){
+  const list=document.getElementById('vip-ann-list'),count=document.getElementById('vip-ann-count');
+  if(!list)return;
+  const mine=annonces.map((a,i)=>({...a,ri:i})).filter(a=>a.vip);
+  if(count)count.textContent='('+mine.length+')';
+  if(!mine.length){list.innerHTML='<div style="color:#aaa;font-size:11px;text-align:center;padding:8px;">Aucune annonce VIP</div>';return;}
+  list.innerHTML=mine.map(a=>`
+    <div class="vip-ann-item">
+      <div class="vip-ann-meta">⭐ ${esc(a.date)}</div>
+      <div style="white-space:pre-wrap;margin-bottom:4px;">${esc(a.text)}</div>
+      <div class="vip-ann-actions">
+        <button class="vip-ann-btn edit" onclick="vipToggleEdit(${a.ri})">✏ MODIFIER</button>
+        <button class="vip-ann-btn del" onclick="vipDel(${a.ri})">🗑 SUPPRIMER</button>
+      </div>
+      <div class="vip-edit-zone" id="vez-${a.ri}">
+        <textarea class="vip-edit-box" id="vei-${a.ri}">${a.text}</textarea>
+        <button class="vip-edit-save" onclick="vipSaveEdit(${a.ri})">✓ ENREGISTRER</button>
+      </div>
+    </div>`).join('');
+}
+function vipToggleEdit(i){const z=document.getElementById('vez-'+i);z.style.display=z.style.display==='block'?'none':'block';if(z.style.display==='block')document.getElementById('vei-'+i).focus();}
+async function vipSaveEdit(i){
+  const t=document.getElementById('vei-'+i).value.trim();if(!t)return;
+  try{const r=await fetch(BIN_URL+"/latest",{headers:HR});const d=await r.json();annonces=d.record.annonces||[];}catch(e){}
+  if(!annonces[i]||!annonces[i].vip){flash('⚠ Erreur');return;}
+  annonces[i].text=t;
+  try{await fetch(BIN_URL,{method:'PUT',headers:HRW,body:JSON.stringify({annonces})});renderAnnonces();renderVipList();flash('✏ Modifiée !');}catch(e){flash('✗ Erreur');}
+}
+async function vipDel(i){
+  if(!confirm('Supprimer ton annonce ?'))return;
+  try{const r=await fetch(BIN_URL+"/latest",{headers:HR});const d=await r.json();annonces=d.record.annonces||[];}catch(e){}
+  if(!annonces[i]||!annonces[i].vip){flash('⚠ Erreur');return;}
+  annonces.splice(i,1);
+  try{await fetch(BIN_URL,{method:'PUT',headers:HRW,body:JSON.stringify({annonces})});renderAnnonces();renderVipList();flash('🗑 Supprimée');}catch(e){flash('✗ Erreur');}
+}
+async function refreshVipList(){
+  try{const r=await fetch(BIN_URL+"/latest",{headers:HR});if(!r.ok)return;const d=await r.json();annonces=d.record.annonces||[];renderAnnonces();renderVipList();const el=document.getElementById('vip-refresh-status');if(el)el.textContent='↻ '+new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});}catch(e){}
+}
+function openVipPanel(){_vipOpen=true;document.getElementById('vip-panel').classList.add('open');refreshVipList();clearInterval(_vipIv);_vipIv=setInterval(()=>{if(_vipOpen)refreshVipList();},3000);}
+function closeVipPanel(){_vipOpen=false;document.getElementById('vip-panel').classList.remove('open');clearInterval(_vipIv);}
+function logoutVip(){isVip=false;_vipOpen=false;closeVipPanel();renderAnnonces();flash('[ VIP DÉCONNECTÉ ]');}
+
+// LOGIN
+function openLogin(){if(isAdmin){openPanel();return;}if(isVip){openVipPanel();return;}document.getElementById('login-modal').classList.add('open');setTimeout(()=>document.getElementById('pwd-input').focus(),50);}
+function closeLogin(){document.getElementById('login-modal').classList.remove('open');document.getElementById('pwd-input').value='';document.getElementById('pwd-err').style.display='none';document.getElementById('pwd-input').classList.remove('error');}
+function checkPwd(){
+  const v=document.getElementById('pwd-input').value;
+  if(v===ADMIN_PWD){isAdmin=true;closeLogin();openPanel();renderAnnonces();renderExtraRules();flash('✓ CONNECTÉ ADMIN');}
+  else if(v===VIP_PWD){isVip=true;closeLogin();openVipPanel();flash('⭐ CONNECTÉ VIP');}
+  else{document.getElementById('pwd-err').style.display='block';document.getElementById('pwd-input').classList.add('error');document.getElementById('pwd-input').value='';setTimeout(()=>{document.getElementById('pwd-err').style.display='none';document.getElementById('pwd-input').classList.remove('error');},2000);}
+}
+function logout(){isAdmin=false;closePanel();renderAnnonces();renderExtraRules();flash('[ DÉCONNECTÉ ]');}
+function openPanel(){document.getElementById('admin-panel').classList.add('open');loadAnnonces();}
+function closePanel(){document.getElementById('admin-panel').classList.remove('open');}
+
+// NOTIF
+function notif(vip){
+  try{const ctx=new(window.AudioContext||window.webkitAudioContext)();[[440,0,0.35],[660,0.18,0.55]].forEach(([f,s,e])=>{const o=ctx.createOscillator(),g=ctx.createGain();o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(0,ctx.currentTime+s);g.gain.linearRampToValueAtTime(0.15,ctx.currentTime+s+0.05);g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+e);o.connect(g);g.connect(ctx.destination);o.start(ctx.currentTime+s);o.stop(ctx.currentTime+e+0.05);});}catch(e){}
+  const b=document.getElementById('ann-flash-banner');
+  if(b){b.textContent=vip?'⭐ NOUVELLE ANNONCE VIP — FONDATION SCP':'📢 NOUVELLE ANNONCE — FONDATION SCP';b.className=vip?'vip-banner show':'show';clearTimeout(window._bt);window._bt=setTimeout(()=>b.classList.remove('show'),4000);}
+}
+
+// AMBIANCE
+let _amb=false;
+function startAmb(){if(_amb)return;_amb=true;try{const ctx=new(window.AudioContext||window.webkitAudioContext)();const m=ctx.createGain();m.gain.value=0.4;m.connect(ctx.destination);const lb=ctx.createBuffer(2,ctx.sampleRate*5,ctx.sampleRate);for(let c=0;c<2;c++){const d=lb.getChannelData(c);for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,2);}const rv=ctx.createConvolver();rv.buffer=lb;const rg=ctx.createGain();rg.gain.value=0.35;rv.connect(rg);rg.connect(m);[[40,.12],[55,.09],[80,.06]].forEach(([f,v])=>{const o=ctx.createOscillator(),g=ctx.createGain(),lf=ctx.createOscillator(),lg=ctx.createGain();o.type='sine';o.frequency.value=f;g.gain.value=v;lf.frequency.value=0.04+Math.random()*0.03;lg.gain.value=v*.3;lf.connect(lg);lg.connect(g.gain);o.connect(g);g.connect(m);o.start();lf.start();});const nb=ctx.createBuffer(1,ctx.sampleRate*3,ctx.sampleRate);const nd=nb.getChannelData(0);for(let i=0;i<nd.length;i++)nd[i]=Math.random()*2-1;const ns=ctx.createBufferSource();ns.buffer=nb;ns.loop=true;const lp=ctx.createBiquadFilter();lp.type='lowpass';lp.frequency.value=180;const ng=ctx.createGain();ng.gain.value=0.05;ns.connect(lp);lp.connect(ng);ng.connect(m);ns.start();}catch(e){}}
+document.addEventListener('click',startAmb,{once:true});
+document.addEventListener('touchstart',startAmb,{once:true});
+
+// POLLING 3S
+setInterval(async()=>{
+  try{const r=await fetch(BIN_URL+"/latest",{headers:HR});if(!r.ok)return;const d=await r.json();const na=d.record.annonces||[];
+  if(JSON.stringify(na)!==JSON.stringify(annonces)){const wasNew=_lastCount!==-1&&na.length>annonces.length;annonces=na;renderAnnonces();if(isAdmin)renderAdminList();if(wasNew)notif(na.length>0&&na[0].vip===true);}
+  _lastCount=annonces.length;}catch(e){}
+},3000);
+
+// INIT
+loadAnnonces();
+renderExtraRules();
+document.querySelectorAll('.section').forEach((s,i)=>{s.style.animationDelay=(i*0.08)+'s';});
+</script>
+</body>
+</html>
 .header-left,.header-right{font-size:clamp(9px,1.2vw,11px);color:var(--ink-dim);line-height:2;font-family:'Share Tech Mono',monospace;}
 .header-right{text-align:right;}
 .header-center{text-align:center;flex:1;min-width:180px;}
